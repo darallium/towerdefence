@@ -8,7 +8,7 @@ public class camera_move : MonoBehaviour
 	public GameObject targetObject;
 
 	// starting value for the Lerp
-	static float t = 0.02f;
+	static float t = 0.015f;
 
 	void Update()
 	{
