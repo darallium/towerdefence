@@ -560,5 +560,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
-Assets/Plugins/Zenject/

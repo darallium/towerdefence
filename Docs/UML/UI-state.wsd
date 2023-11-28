@@ -1,0 +1,88 @@
+@startuml 画面遷移図
+
+title 画面遷移図
+skinparam dpi 600
+top to bottom direction
+
+hide empty description
+state "Splash Window" as Splash {
+	Splash: entry/\tLoad assets
+	Splash: do/\tShow splash image
+	state "Check Login" as isLoggedin
+	state "Not Login" as NotLogin
+	[*] -> isLoggedin
+	isLoggedin --> Loginned : ログインしている
+	isLoggedin --> NotLogin : ログインしていない
+	state "Login Window" as NotLogin {
+		state "Login" as Login
+		state "Register" as Register
+		[*] --> Login : ログイン
+		[*] --> Register : 新規登録
+	}
+}
+state "Main Window" as Main {
+	Main : entry/\tLoad news\n\t\tLoadSubAssets
+}
+state "Difficulty Selection Window" as Difficulty {
+	Difficulty: entry/\tshow scores of each difficulties
+	Difficulty: do/\tShow stats and of each difficulties
+}
+state "Game Window" as Game {
+	Game: entry/\tLoad game rules
+}
+state "Result Window" as Result {
+	Result: entry/\tcalc scores
+	Result: do/\tShow scores
+}
+state "Configure Modal Window" as Option {
+	Option: entry/\tLoad config
+	Option: exit/\tSave config\n        Refrect to the game
+}
+state "Pause Menu" as pause{
+	pause: entry/\tShow pause menu\n\t\tPause Main window's game-tick
+	pause: do/\tShow pause menu
+	pause: exit/\tHide pause menu\n\tResume Main window's game-tick
+}
+state "Skill Tree View" as skill{
+	skill: entry/\tShow skill tree
+	skill: exit/\tHide skill tree
+	state "Idle" as idleofskill
+	state "hover skill" as skillnode{
+		skillnode: do/\tShow skill description
+		skillnode: exit/\tHide skill description
+	}
+	idleofskill --> skillnode : hover
+	skillnode --> idleofskill : unhover
+
+}
+state "Tilemap Window" as tilemap{
+	tilemap: entry/\tShow tilemap
+	tilemap: do/\tUpdate tilemap
+	tilemap: exit/\tHide tilemap
+}
+
+[*] -> Splash
+Splash -> Main : onClick
+Main -> Difficulty : onClick start button
+Difficulty -> Game : onClick select difficulty
+
+Game -> Result : onEndGame
+
+Result --> Main : onClick back button
+Main ->[*] : onClick exit button
+Result ->[*] : onClick exit button
+
+
+Game --> pause : onPressed esc
+pause --> Game : onPressed esc
+pause --> Option : onClick option button
+pause --> [*] : onClick exit button
+
+
+Game --> skill : onPressed skill button
+skill --> Game : onPressed esc
+
+Game --> tilemap : onPressed a tile
+tilemap --> Game : onPressed esc\n on Pressed outside of window
+tilemap --> tilemap : onPressed another tile
+@enduml
