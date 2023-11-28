@@ -1,6 +1,6 @@
 {
-    "name": "Presenter",
-    "rootNamespace": "Presenter",
+    "name": "Presentations",
+    "rootNamespace": "Presentations",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
